@@ -38,13 +38,16 @@ def get_places(url, page_num=1):
             continue
         name = soup.find('h1', class_='title-h1').text
         description = soup.find('div', class_='place-description').find('div', class_='text').text
-        location = soup.find('span', class_='info-line__text_gray').text
+        location = soup.find('span', class_='info-line__text_gray').text.split(', ')
+        country = location[-1]
+        region = location[:-1]
         place_info = {
             'place_name': name,
             'place_description': description,
-            'location': location
+            'country': country,
+            'region': region,
         }
-        print(f'{place_info["location"]}')
+        print(f'{place_info["country"]}')
 
 
 if __name__ == "__main__":
