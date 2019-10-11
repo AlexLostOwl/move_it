@@ -1,16 +1,24 @@
-from flask import Flask
-import flask_sqlalchemy
-
-from web_travel.models import db
-from web_travel import config
+from flask import Flask, render_template
+from web_travel.models import db, User, Country, City, Place
+from web_travel.crud import *
+from . import config
 
 
 def create_app():
-    travel_app = Flask(__name__)
-    # travel_app.config.from_pyfile('config.py')
-    travel_app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_CONNECTION_URI
-    travel_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    travel_app.app_context().push()
-    db.init_app(travel_app)
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_CONNECTION_URI
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.app_context().push()
+    db.init_app(app)
     db.create_all()
-    return travel_app
+
+
+    @app.route('/')
+    def index():
+        save_user('Sasha', 'Umnnii_parol', 'Moi_Password')
+        save_country('Ne Russia')
+        save_city('Smolensk', 'Russia')
+        save_place('A place description', 'Russia', 'Smolensk')
+        return render_template('index.html', users=get_users, countries=get_countries, cities=get_cities(), place=get_places())
+
+    return app

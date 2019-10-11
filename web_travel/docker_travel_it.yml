@@ -2,6 +2,7 @@ version: '3.5'
 services:
   database:
     container_name: postgres
+    restart: always
     image: postgres:latest
     env_file: database.conf
     ports:

@@ -15,6 +15,12 @@ Docker installation:
 Install Docker-Compose:
     https://docs.docker.com/compose/install/
     
+Post-installation step:
+    - Make docker executable without sudo:
+        sudo groupadd docker
+        sudo usermod -aG docker $USER
+        newgrp docker 
+    
 Run docker container with postgresql:
     - Download postgres docker image from DockerHub (need to run only once):
         docker pull postgres
@@ -27,3 +33,6 @@ Run docker container with postgresql:
     ----------------------------------
     - OR run with docker-compose (docker_travel_it.yaml needed)
         sudo docker-compose -f docker_travel_it.yml up --build -d
+        
+Connect to the docker container:
+    docker exec -it <docker_container_id> bash
