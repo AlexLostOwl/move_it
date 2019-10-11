@@ -3,5 +3,6 @@ __pycache__/
 env/
 venv
 .idea
-./.envrc
+.envrc
+.direnv
 web_travel/database.conf
