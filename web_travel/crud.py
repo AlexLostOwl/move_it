@@ -18,18 +18,22 @@ def save_country(country_name):
 
 
 def save_city(city_name, related_country):
-    country = Country.query.filter(Country.country_name == related_country).first()
-    new_city = City(city_name=city_name, country_id=country)
-    db.session.add(new_city)
-    db.session.commit()
+    # TODO:: could be problems with duplicate cities for 1 country need to think hiw determine cities
+    if not City.query.filter(City.city_name == city_name).count():
+        country = Country.query.filter(Country.country_name == related_country).first()
+        new_city = City(city_name=city_name, country_id=country.id)
+        db.session.add(new_city)
+        db.session.commit()
 
 
-def save_place(description, related_country, related_city):
-    country = Country.query.filter(Country.country_name == related_country).first()
-    city = City.query.filter(City.city_name == related_city).first()
-    new_place = Place(description=description, country_id=country, city_id=city)
-    db.session.add(new_place)
-    db.session.commit()
+def save_place(name, description, related_country, related_city):
+    # TODO:: could be problems with duplicate places for 1 country/city need to think hiw determine cities
+    if not Place.query.filter(Place.place_name == name).count():
+        country = Country.query.filter(Country.country_name == related_country).first()
+        city = City.query.filter(City.city_name == related_city).first()
+        new_place = Place(place_name=name, description=description, country_id=country.id, city_id=city.id)
+        db.session.add(new_place)
+        db.session.commit()
 
 
 def get_users():
@@ -77,6 +81,7 @@ def get_places():
     for place in places:
         new_place = {
             'id': place.id,
+            'name': place.place_name,
             'description': place.description,
             'country': place.country_id,
             'city': place.city_id

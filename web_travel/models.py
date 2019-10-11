@@ -10,9 +10,6 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
 
-    def __repr__(self):
-        return f'User is {self.username} with email: {self.email}'
-
 
 class Country(db.Model):
     __tablename__ = 'countries'
@@ -21,9 +18,6 @@ class Country(db.Model):
 
     cities = db.relationship('City', backref='city_in_country', lazy='dynamic')
     places = db.relationship('Place', backref='place_in_country', lazy='dynamic')
-
-    def __repr__(self):
-        return f'Country is {self.country_name}'
 
 
 class City(db.Model):
@@ -34,16 +28,11 @@ class City(db.Model):
 
     places = db.relationship('Place', backref='place_in_city', lazy='dynamic')
 
-    def __repr__(self):
-        return f'city={self.city_name}, in_country={self.country_id}'
-
 
 class Place(db.Model):
     __tablename__ = 'places'
     id = db.Column(db.Integer, primary_key=True)
+    place_name = db.Column(db.String, nullable=False)
     description = db.Column(db.Text)
     country_id = db.Column(db.Integer, db.ForeignKey('countries.id'))
     city_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
-
-    def __repr__(self):
-        return f'city={self.city_id},in_country={self.country_id},in_city={self.city_id}'

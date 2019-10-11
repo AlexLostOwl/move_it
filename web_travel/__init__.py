@@ -12,13 +12,14 @@ def create_app():
     db.init_app(app)
     db.create_all()
 
-
     @app.route('/')
     def index():
+        # Just an Example feel fre to delete
         save_user('Sasha', 'Umnnii_parol', 'Moi_Password')
-        save_country('Ne Russia')
+        save_country('Russia')
         save_city('Smolensk', 'Russia')
-        save_place('A place description', 'Russia', 'Smolensk')
-        return render_template('index.html', users=get_users, countries=get_countries, cities=get_cities(), place=get_places())
+        save_place('Nice place', 'A place description', 'Russia', 'Smolensk')
+        return render_template('index.html', users=get_users(), country=get_countries(), city=get_cities(),
+                               place=get_places())
 
     return app
