@@ -3,6 +3,5 @@ __pycache__/
 env/
 venv
 .idea
-.envrc
-envrc
+.envr*
 web_travel/database.conf
