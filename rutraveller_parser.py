@@ -3,6 +3,9 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
+from web_travel.models import db, City, Country, Place
+from web_travel.crud import save_country, save_city, save_place
+
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
@@ -40,14 +43,15 @@ def get_places(url, page_num=1):
         description = soup.find('div', class_='place-description').find('div', class_='text').text
         location = soup.find('span', class_='info-line__text_gray').text.split(', ')
         country = location[-1]
-        region = location[:-1]
+        if len(location) >= 2:
+            city = location[-2]
         place_info = {
             'place_name': name,
             'place_description': description,
             'country': country,
-            'region': region,
+            'city': city,
         }
-        print(f'{place_info["country"]}')
+        print(f'{place_info}')
 
 
 if __name__ == "__main__":
