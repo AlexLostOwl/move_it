@@ -18,7 +18,6 @@ def save_country(country_name):
 
 
 def save_city(city_name, related_country):
-    print('city_exists', city_exists(city_name, related_country))
     if not city_exists(city_name, related_country):
         country = Country.query.filter(Country.country_name == related_country).first()
         new_city = City(city_name=city_name, country_id=country.id)
@@ -38,7 +37,6 @@ def city_exists(city_name, releated_country):
 
 def save_place(place_name, description, related_country, related_city):
     save_city(related_city, related_country)
-    print('place exists', place_exists(place_name, related_country, related_city))
     if not place_exists(place_name, related_country, related_city):
         country = Country.query.filter(Country.country_name == related_country).first()
         city = City.query.filter(City.city_name == related_city).first()
