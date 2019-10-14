@@ -6,4 +6,4 @@ venv
 .idea
 .envrc
 .direnv
-web_travel/database.conf
+database.conf
