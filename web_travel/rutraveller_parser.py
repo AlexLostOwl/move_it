@@ -3,7 +3,7 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-from web_travel.crud import save_place
+from web_travel import save_place
 
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
@@ -45,7 +45,9 @@ def get_places(page_num=1):
         country = location[-1]
         if len(location) >= 2:
             city = location[-2]
-        save_place(name, description, country, city)
+            save_place(name, description, country, city)
+        else:
+            save_place(name, description, country)
 
 
 if __name__ == "__main__":
