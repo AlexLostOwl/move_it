@@ -55,14 +55,6 @@ def place_exists(place_name, related_country, related_city):
         if city_object.first().city_name == related_city and country_object.first().country_name == related_country:
             return True
     return False
-    # place_to_check = Place.query.filter(Place.place_name == name)
-    # if place_to_check.count():
-    #     place_country = Country.query.filter(Country.id == place_to_check.first().country_id)
-    #     place_city = City.query.filter(City.id == place_to_check.first().city_id)
-    #     if place_country.count() and place_city.count():
-    #         if place_country.first().country_name == related_country and place_city.first().city_name == related_city:
-    #             return True
-    # return False
 
 
 def get_users():

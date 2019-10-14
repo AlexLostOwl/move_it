@@ -3,8 +3,7 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-from web_travel.models import db, City, Country, Place
-from web_travel.crud import save_country, save_city, save_place
+from web_travel.crud import save_place
 
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
@@ -22,11 +21,12 @@ def get_html(url, page_num):
         return False
 
 
-def get_places(url, page_num=1):
+def get_places(page_num=1):
     logging.info('Parsing started')
+    URL = 'https://rutraveller.ru/place'
     errors_count = 0
     while True:
-        page_html = get_html(url, page_num)
+        page_html = get_html(URL, page_num)
         page_num += 1
         if errors_count == 4 and not page_html:
             logging.info('Pages with 404 error were %d in a row. Stop parsing', errors_count + 1)
@@ -37,7 +37,7 @@ def get_places(url, page_num=1):
         errors_count = 0
         soup = BeautifulSoup(page_html, 'html.parser')
         if soup.find('span', class_='label-status--notverified'):
-            logging.info('page %s/%d not verified, skipping', url, page_num)
+            logging.info('page %s/%d not verified, skipping', URL, page_num)
             continue
         name = soup.find('h1', class_='title-h1').text
         description = soup.find('div', class_='place-description').find('div', class_='text').text
@@ -45,14 +45,8 @@ def get_places(url, page_num=1):
         country = location[-1]
         if len(location) >= 2:
             city = location[-2]
-        place_info = {
-            'place_name': name,
-            'place_description': description,
-            'country': country,
-            'city': city,
-        }
-        print(f'{place_info}')
+        save_place(name, description, country, city)
 
 
 if __name__ == "__main__":
-    get_places('https://rutraveller.ru/place')
+    get_places()
