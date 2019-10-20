@@ -18,22 +18,46 @@ def save_country(country_name):
 
 
 def save_city(city_name, related_country):
-    # TODO:: could be problems with duplicate cities for 1 country need to think hiw determine cities
-    if not City.query.filter(City.city_name == city_name).count():
+    save_country(related_country)
+    if not city_exists(city_name, related_country):
         country = Country.query.filter(Country.country_name == related_country).first()
         new_city = City(city_name=city_name, country_id=country.id)
         db.session.add(new_city)
         db.session.commit()
 
 
-def save_place(name, description, related_country, related_city):
-    # TODO:: could be problems with duplicate places for 1 country/city need to think hiw determine cities
-    if not Place.query.filter(Place.place_name == name).count():
+def city_exists(city_name, related_country):
+    same_cities_objects = City.query.filter(City.city_name == city_name).all()
+    for city_object in same_cities_objects:
+        country_object = Country.query.filter(Country.id == city_object.country_id)
+        if country_object.count() and country_object.first().country_name == related_country:
+            return True
+    return False
+
+
+def save_place(place_name, description, related_country, related_city=None):
+    if not related_city:
+        save_country(related_country)
+    else:
+        save_city(related_city, related_country)
+    if not place_exists(place_name, related_country):
         country = Country.query.filter(Country.country_name == related_country).first()
-        city = City.query.filter(City.city_name == related_city).first()
-        new_place = Place(place_name=name, description=description, country_id=country.id, city_id=city.id)
+        if related_city:
+            city = City.query.filter(City.city_name == related_city).first()
+            new_place = Place(place_name=place_name, description=description, country_id=country.id, city_id=city.id)
+        else:
+            new_place = Place(place_name=place_name, description=description, country_id=country.id)
         db.session.add(new_place)
         db.session.commit()
+
+
+def place_exists(place_name, related_country):
+    same_places_objects = Place.query.filter(Place.place_name == place_name).all()
+    for place_object in same_places_objects:
+        country_object = Country.query.filter(Country.id == place_object.country_id)
+        if country_object.count() and country_object.first().country_name == related_country:
+            return True
+    return False
 
 
 def get_users():

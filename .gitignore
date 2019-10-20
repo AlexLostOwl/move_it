@@ -1,8 +1,9 @@
 __pycache__/
 .vscode/
 env/
+*.log
 venv
 .idea
 .envrc
 .direnv
-web_travel/database.conf
+database.conf

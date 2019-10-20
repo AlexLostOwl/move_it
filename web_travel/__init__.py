@@ -15,10 +15,10 @@ def create_app():
     @app.route('/')
     def index():
         # Just an Example feel fre to delete
-        save_user('Sasha', 'Umnnii_parol', 'Moi_Password')
-        save_country('Russia')
-        save_city('Smolensk', 'Russia')
-        save_place('Nice place', 'A place description', 'Russia', 'Smolensk')
+        # save_user('Sasha', 'Umnnii_parol', 'Moi_Password')
+        # save_country('Greece')
+        # save_city('Smolensk', 'Germany')
+        # save_place('Nice Place', 'A place description', 'Bulgaria', 'Ramensk')
         return render_template('index.html', users=get_users(), country=get_countries(), city=get_cities(),
                                place=get_places())
 
