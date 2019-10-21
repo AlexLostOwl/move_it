@@ -1,16 +1,15 @@
 from flask import Flask, render_template
+
 from web_travel.models import db, User, Country, City, Place
 from web_travel.crud import *
-from . import config
 
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_CONNECTION_URI
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config.from_pyfile('config.py')
     app.app_context().push()
     db.init_app(app)
-    db.create_all()
+
 
     @app.route('/')
     def index():
