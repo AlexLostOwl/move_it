@@ -6,6 +6,8 @@ host = os.environ['POSTGRES_HOST']
 database = os.environ['POSTGRES_DB']
 port = os.environ['POSTGRES_PORT']
 
+SECRET_KEY = os.environ['WTF_CSRF_SECRET_KEY']
+
 SQLALCHEMY_DATABASE_URI = f'postgres+psycopg2://{user}:{password}@{host}:{port}/{database}'
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -10,6 +10,7 @@ def create_app():
     app.config.from_pyfile('config.py')
     app.app_context().push()
     db.init_app(app)
+    db.create_all()
 
     app.register_blueprint(admin_blueprint)
 
@@ -20,7 +21,7 @@ def create_app():
         # save_country('Greece')
         # save_city('Smolensk', 'Germany')
         # save_place('Nice Place', 'A place description', 'Bulgaria', 'Ramensk')
-        return render_template('index.html', users=get_users(), country=get_countries(), city=get_cities(),
-                               place=get_places())
-
+        # return render_template('index.html', users=get_users(), country=get_countries(), city=get_cities(),
+        #                        place=get_places())
+        return 'index page'
     return app
