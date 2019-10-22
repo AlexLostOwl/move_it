@@ -1,8 +1,9 @@
 from flask import Flask, render_template
 
-from web_travel.models import db, User, Country, City, Place
+from web_travel.models import db, User, City, Place
 from web_travel.crud import *
 from web_travel.admin.views import blueprint as admin_blueprint
+from web_travel.country.views import blueprint as country_blueprint
 
 
 def create_app():
@@ -13,6 +14,7 @@ def create_app():
     db.create_all()
 
     app.register_blueprint(admin_blueprint)
+    app.register_blueprint(country_blueprint)
 
     @app.route('/')
     def index():

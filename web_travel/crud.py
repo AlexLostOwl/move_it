@@ -1,4 +1,5 @@
-from web_travel.models import db, User, Country, City, Place
+from web_travel.models import db, User, City, Place
+from web_travel.country.models import Country
 import json
 
 
