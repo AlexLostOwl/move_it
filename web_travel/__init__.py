@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_migrate import Migrate
 
 from web_travel.models import db, User, City, Place
 from web_travel.crud import *
