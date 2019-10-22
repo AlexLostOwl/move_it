@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, redirect
+from flask import Blueprint, render_template, url_for, redirect, flash
 
 from web_travel.admin.forms import CountryForm
 from web_travel.models import Country
@@ -10,7 +10,8 @@ blueprint = Blueprint('admin', __name__, url_prefix='/admin')
 
 @blueprint.route('/')
 def index():
-    return 'Admin index page'
+    title = 'Administration'
+    return render_template('admin/index.html', page_title=title)
 
 
 @blueprint.route('/add-country')
@@ -27,5 +28,13 @@ def adding_country():
         new_country = Country(country_name=form.country_name.data)
         db.session.add(new_country)
         db.session.commit()
+        flash('Country successful add')
         return redirect(url_for('admin.index'))
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash('Error in field "{}" - {}'.format(
+                    getattr(form, field).label.text,
+                    error
+                ))
     return redirect(url_for('admin.add_country'))
