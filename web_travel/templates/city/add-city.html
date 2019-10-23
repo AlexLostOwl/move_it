@@ -12,8 +12,12 @@
     {% endwith %}
     <div class="row">
         <div class="col-8">
-            <form action=""" method='POST'>
+            <form action="" method='POST'>
                 {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.city_name.label }}
+                    {{ form.city_name() }}
+                </div>
                 <div class="form-group">
                     {{ form.country_name.label }}
                     {{ form.country_name() }}

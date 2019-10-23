@@ -8,11 +8,11 @@ from web_travel import db
 blueprint = Blueprint('country', __name__, url_prefix='/country')
 
 
-@blueprint.route('/add')
-def add():
+@blueprint.route('/add-country')
+def add_country():
     title = 'Add new country'
     country_form = CountryForm()
-    return render_template('country/add.html', page_title=title, form=country_form)
+    return render_template('country/add-country.html', page_title=title, form=country_form)
 
 
 @blueprint.route('/adding-process', methods=['POST'])
@@ -31,4 +31,4 @@ def adding_process():
                     getattr(form, field).label.text,
                     error
                 ))
-    return redirect(url_for('country.add'))
+    return redirect(url_for('country.add_country'))

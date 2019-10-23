@@ -11,3 +11,6 @@ class Country(db.Model):
 
     def __repr__(self):
         return f'<Country {self.country_name} id={self.id}>'
+
+    def __str__(self):
+        return self.country_name
