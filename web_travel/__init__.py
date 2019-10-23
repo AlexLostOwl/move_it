@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_migrate import Migrate
 
-from web_travel.models import db, User, City, Place
+from web_travel.models import db, User, Place
 from web_travel.crud import *
 from web_travel.admin.views import blueprint as admin_blueprint
 from web_travel.country.views import blueprint as country_blueprint
