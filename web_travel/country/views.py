@@ -12,7 +12,9 @@ blueprint = Blueprint('country', __name__, url_prefix='/country')
 def add_country():
     title = 'Add new country'
     country_form = CountryForm()
-    return render_template('country/add-country.html', page_title=title, form=country_form)
+    return render_template('country/add-country.html',
+                           page_title=title,
+                           form=country_form)
 
 
 @blueprint.route('/adding-country', methods=['POST'])

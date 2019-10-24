@@ -30,3 +30,4 @@ def create_app():
                                place=get_places())
         # return 'index page'
     return app
+
