@@ -21,7 +21,7 @@ def save_country(country_name):
 
 
 def country_exists(country):
-    if Country.query.filter(country_name == country).count():
+    if Country.query.filter(Country.country_name == country).count():
         return True
     else:
         return False
@@ -45,10 +45,7 @@ def city_exists(city_name, related_country):
 
 
 def save_place(place_name, description, related_country, related_city=None):
-    if not related_city:
-        save_country(related_country)
-    else:
-        save_city(related_city, related_country)
+    # TODO В случае страны не окажется, будет ошибка
     if not place_exists(place_name, related_country):
         country = Country.query.filter(Country.country_name == related_country).first()
         if related_city:
@@ -61,6 +58,8 @@ def save_place(place_name, description, related_country, related_city=None):
 
 
 def place_exists(place_name, related_country):
+    if not country_exists(related_country):
+        return False
     same_places_objects = Place.query.filter(Place.place_name == place_name).all()
     for place_object in same_places_objects:
         country_object = Country.query.filter(Country.id == place_object.country_id)
