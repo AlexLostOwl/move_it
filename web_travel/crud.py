@@ -14,15 +14,21 @@ def save_user(username, password, email):
 
 
 def save_country(country_name):
-    if not Country.query.filter(Country.country_name == country_name).count():
+    if not country_exists(country_name):
         new_country = Country(country_name=country_name)
         db.session.add(new_country)
         db.session.commit()
 
 
+def country_exists(country):
+    if Country.query.filter(country_name == country).count():
+        return True
+    else:
+        return False
+
+
 def save_city(city_name, related_country):
-    save_country(related_country)
-    if not city_exists(city_name, related_country):
+    if country_exists and not city_exists(city_name, related_country):
         country = Country.query.filter(Country.country_name == related_country).first()
         new_city = City(city_name=city_name, country_id=country.id)
         db.session.add(new_city)

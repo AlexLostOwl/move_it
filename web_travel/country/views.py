@@ -15,8 +15,8 @@ def add_country():
     return render_template('country/add-country.html', page_title=title, form=country_form)
 
 
-@blueprint.route('/adding-process', methods=['POST'])
-def adding_process():
+@blueprint.route('/adding-country', methods=['POST'])
+def adding_country():
     form = CountryForm()
     if form.validate_on_submit():
         new_country = Country(country_name=form.country_name.data)
