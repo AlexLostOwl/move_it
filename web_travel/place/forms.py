@@ -16,12 +16,6 @@ class PlaceAddForm(FlaskForm):
         id='countriesSelect',
         render_kw={'class': 'form-control', 'placeholder': 'test'}
         )
-    # city = SelectField(
-    #     'City name',
-    #     choices=[],
-    #     id='citiesSelect',
-    #     render_kw={'class': 'form-control'}
-    #     )
     place = StringField(
         'Place name',
         validators=[DataRequired()],
