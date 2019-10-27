@@ -1,8 +1,9 @@
 import json
 
-from web_travel.models import db, User, Place
+from web_travel.models import db, User
 from web_travel.country.models import Country
 from web_travel.city.models import City
+from web_travel.place.models import Place
 
 
 def save_user(username, password, email):

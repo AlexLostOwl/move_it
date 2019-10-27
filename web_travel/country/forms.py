@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, ValidationError
 from web_travel.country.models import Country
 
 
-class CountryForm(FlaskForm):
+class CountryAddForm(FlaskForm):
     country_name = StringField('Country name ', validators=[DataRequired()], render_kw={'class': 'form-control'})
     submit = SubmitField('Add country', render_kw={'class': 'btn btn-primary'})
 
