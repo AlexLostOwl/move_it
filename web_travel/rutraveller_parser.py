@@ -3,7 +3,8 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-from web_travel import save_place
+from web_travel import (save_place, save_country, save_city,
+                        place_exists, country_exists, city_exists)
 
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
@@ -43,11 +44,17 @@ def get_places(page_num=1):
         description = soup.find('div', class_='place-description').find('div', class_='text').text
         location = soup.find('span', class_='info-line__text_gray').text.split(', ')
         country = location[-1]
-        if len(location) >= 2:
-            city = location[-2]
-            save_place(name, description, country, city)
+        if place_exists(name, country):
+            continue
         else:
-            save_place(name, description, country)
+            save_country(country)
+            if len(location) >= 2:
+                city = location[-2]
+                if not city_exists(city, country):
+                    save_city(city, country)
+            else:
+                city = None
+            save_place(name, description, country, city)
 
 
 if __name__ == "__main__":

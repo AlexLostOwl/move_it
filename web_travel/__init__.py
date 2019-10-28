@@ -1,8 +1,12 @@
 from flask import Flask, render_template
 from flask_migrate import Migrate
 
-from web_travel.models import db, User, Country, City, Place
+from web_travel.models import db, User
 from web_travel.crud import *
+from web_travel.admin.views import blueprint as admin_blueprint
+from web_travel.country.views import blueprint as country_blueprint
+from web_travel.city.views import blueprint as city_blueprint
+from web_travel.place.views import blueprint as place_blueprint
 
 
 def create_app():
@@ -11,6 +15,11 @@ def create_app():
     app.app_context().push()
     db.init_app(app)
     migrate = Migrate(app, db)
+
+    app.register_blueprint(admin_blueprint)
+    app.register_blueprint(country_blueprint)
+    app.register_blueprint(city_blueprint)
+    app.register_blueprint(place_blueprint)
 
     @app.route('/')
     def index():
