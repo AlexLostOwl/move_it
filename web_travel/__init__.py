@@ -30,6 +30,5 @@ def create_app():
         # save_place('Nice Place', 'A place description', 'Bulgaria', 'Ramensk')
         return render_template('index.html', users=get_users(), country=get_countries(), city=get_cities(),
                                place=get_places())
-        # return 'index page'
-    return app
 
+    return app
