@@ -6,15 +6,15 @@ from web_travel.user.models import User
 
 
 class LoginForm(FlaskForm):
-    username = StringField('User Name', validators=[DataRequired()], render_kw={"class" "form-control"})
+    username = StringField('User Name', validators=[DataRequired()], render_kw={"class": "form-control"})
     password = PasswordField('Password', validators=[DataRequired()], render_kw={"class": "form-control"})
     remember_me = BooleanField('Remember me', default=False, render_kw={"class": "form-check-input"})
     submit = SubmitField('Send', render_kw={"class": "btn btn-primary"})
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('User Name', validators=[DataRequired()], render_kw={"class" "form-control"})
-    email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"class" "form-control"})
+    username = StringField('User Name', validators=[DataRequired()], render_kw={"class": "form-control"})
+    email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"class": "form-control"})
     password = PasswordField('Password', validators=[DataRequired()], render_kw={"class": "form-control"})
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')],
                               render_kw={"class": "form-control"})

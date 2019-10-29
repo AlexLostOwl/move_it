@@ -14,10 +14,10 @@ def login():
         return redirect(url_for('main.index'))
     title = 'Authorization'
     form = LoginForm()
-    return render_template('uses/login.html', page_title=title, form=form)
+    return render_template('user/login.html', page_title=title, form=form)
 
 
-@blueprint.route('process-login', methods=['POST'])
+@blueprint.route('/process-login', methods=['POST'])
 def process_login():
     form = LoginForm()
 
@@ -28,7 +28,7 @@ def process_login():
             login_user(user)
             flash('You successfully logged in')
             return redirect(url_for('main.index'))
-    flash('Wrond name or password')
+    flash('Wrong name or password')
     return redirect(url_for('user.login'))
 
 
@@ -44,8 +44,8 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     title = 'Registration'
-    registration_form = RegistrationForm()
-    return render_template('user/registration.html', page_title=title, form=registration_form)
+    form = RegistrationForm()
+    return render_template('user/registration.html', page_title=title, form=form)
 
 
 @blueprint.route('/process-register', methods=['POST'])
