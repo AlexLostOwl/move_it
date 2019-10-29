@@ -1,34 +1,36 @@
-from flask import Flask, render_template
+from flask import Flask
+from flask_login import LoginManager
 from flask_migrate import Migrate
 
-from web_travel.models import db, User
-from web_travel.crud import *
 from web_travel.admin.views import blueprint as admin_blueprint
 from web_travel.country.views import blueprint as country_blueprint
+from web_travel.crud import *
 from web_travel.city.views import blueprint as city_blueprint
+from web_travel.db import db
 from web_travel.place.views import blueprint as place_blueprint
+from web_travel.user.models import User
+from web_travel.user.views import blueprint as user_blueprint
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
-    app.app_context().push()
+    # app.app_context().push()
     db.init_app(app)
     migrate = Migrate(app, db)
+
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'user.login'
 
     app.register_blueprint(admin_blueprint)
     app.register_blueprint(country_blueprint)
     app.register_blueprint(city_blueprint)
     app.register_blueprint(place_blueprint)
+    app.register_blueprint(user_blueprint)
 
-    @app.route('/')
-    def index():
-        # Just an Example feel fre to delete
-        # save_user('Sasha', 'Umnnii_parol', 'Moi_Password')
-        # save_country('Greece')
-        # save_city('Smolensk', 'Germany')
-        # save_place('Nice Place', 'A place description', 'Bulgaria', 'Ramensk')
-        return render_template('index.html', users=get_users(), country=get_countries(), city=get_cities(),
-                               place=get_places())
+    @login_manager.user_loader
+    def load_user(userd_id):
+        return User.query.get(userd_id)
 
     return app

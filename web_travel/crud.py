@@ -1,17 +1,8 @@
-import json
-
-from web_travel.models import db, User
+from web_travel.db import db
 from web_travel.country.models import Country
 from web_travel.city.models import City
 from web_travel.place.models import Place
-
-
-def save_user(username, password, email):
-    user_exists = User.query.filter(User.email == email).count()
-    if not user_exists:
-        new_user = User(username=username, password=password, email=email)
-        db.session.add(new_user)
-        db.session.commit()
+from web_travel.user.models import User
 
 
 def save_country(country_name):
@@ -68,56 +59,3 @@ def place_exists(place_name, related_country):
             return True
     return False
 
-
-def get_users():
-    users = User.query.all()
-    all_users = []
-    for user in users:
-        new_user = {
-            'id': user.id,
-            'name': user.username,
-            'password': user.password,
-            'email': user.email
-        }
-        all_users.append(new_user)
-    return json.dumps(all_users)
-
-
-def get_countries():
-    countries = Country.query.all()
-    all_countries = []
-    for country in countries:
-        new_country = {
-            'id': country.id,
-            'name': country.country_name
-        }
-        all_countries.append(new_country)
-    return json.dumps(all_countries)
-
-
-def get_cities():
-    cities = City.query.all()
-    all_cities = []
-    for city in cities:
-        new_city = {
-            'id': city.id,
-            'name': city.city_name,
-            'country': city.country_id
-        }
-        all_cities.append(new_city)
-    return json.dumps(all_cities)
-
-
-def get_places():
-    places = Place.query.all()
-    all_places = []
-    for place in places:
-        new_place = {
-            'id': place.id,
-            'name': place.place_name,
-            'description': place.description,
-            'country': place.country_id,
-            'city': place.city_id
-        }
-        all_places.append(new_place)
-    return json.dumps(all_places)
