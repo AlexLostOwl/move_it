@@ -1,4 +1,4 @@
-from web_travel.models import db
+from web_travel.db import db
 
 
 class City(db.Model):
