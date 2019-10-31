@@ -1,6 +1,6 @@
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField, StringField
+from wtforms import SubmitField, TextAreaField, StringField, RadioField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired
 
@@ -14,7 +14,7 @@ class PlaceAddForm(FlaskForm):
         query_factory=lambda: Country.query.order_by(Country.country_name),
         validators=[DataRequired()],
         id='countriesSelect',
-        render_kw={'class': 'form-control', 'placeholder': 'test'}
+        render_kw={'class': 'form-control'}
         )
     place = StringField(
         'Place name',
@@ -24,6 +24,12 @@ class PlaceAddForm(FlaskForm):
     description = TextAreaField(
         'Place description',
         render_kw={'class': 'form-control'}
+        )
+    country_input_method = RadioField(
+        'Country choice',
+        validators=[DataRequired()]
+        choices=[('choose', 'Choose country'), ('create', 'Create country')],
+        default='choose'
         )
     submit = SubmitField(
         'Add country',
