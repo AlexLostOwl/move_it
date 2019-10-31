@@ -26,14 +26,25 @@
                     {{ form.country_input_method.label }}
                     {{ form.country_input_method() }}
                 </div>
-                <div class="form-group">
-                    {{ form.country.label }}
-                    {{ form.country() }}
+                <div id="chooseLocation">
+                    <div class="form-group">
+                        {{ form.country.label }}
+                        {{ form.country() }}
+                    </div>
+                    <div class="form-group" id="groupCityInput" style="display: none;">
+                        {{ form.city.label }}
+                        {{ form.city() }}
+                    </div>
                 </div>
-                <div class="form-group" id="groupCityInput" style="display: none;">
-                    <label for="citiesSelect">City</label>
-                    <select class="form-control" id="citiesSelect" name="city">
-                    </select>
+                <div id="createLocation" style="display: none;">
+                    <div class="form-group">
+                        {{ form.new_country.label }}
+                        {{ form.new_country() }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.new_city.label }}    
+                        {{ form.new_city() }}
+                    </div>
                 </div>
                 {{ form.submit() }}
             </form>

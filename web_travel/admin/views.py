@@ -8,5 +8,5 @@ blueprint = Blueprint('admin', __name__, url_prefix='/admin')
 @blueprint.route('/')
 @admin_required
 def index():
-    title = 'Administration'
+    title = 'Admin panel'
     return render_template('admin/index.html', page_title=title)

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 
 from web_travel.place.forms import PlaceAddForm
-from web_travel.crud import save_place
+from web_travel.crud import save_place, save_country, save_city
 
 
 blueprint = Blueprint('place', __name__, url_prefix='/place')
@@ -21,9 +21,26 @@ def adding_place():
     # TODO city заполняется при загрузке страницы
     form = PlaceAddForm()
     if form.validate_on_submit():
-        save_place(form.place.data, form.description.data,
-                   form.country.data.country_name, request.form.get('city'))
-        flash(f'Место {form.place.data} успешно добавлено')
+        if form.country_input_method.data == 'choose':
+            save_place(
+                form.place.data, form.description.data,
+                form.country.data.country_name, form.city.data
+                )
+            flash(f'Место {form.place.data} успешно добавлено')
+            return redirect(url_for('place.add_place'))
+        if form.country_input_method.data == 'create':
+            save_country(form.new_country.data)
+            if form.new_city.data != '':
+                save_city(form.new_city.data, form.new_country.data)
+                save_place(
+                    form.place.data, form.description.data,
+                    form.new_country.data, form.new_city.data
+                    )
+            else:
+                save_place(
+                    form.place.data, form.description.data,
+                    form.new_country.data
+                    )
         return redirect(url_for('place.add_place'))
     else:
         for field, errors in form.errors.items():
