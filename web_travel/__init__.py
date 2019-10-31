@@ -8,7 +8,6 @@ from web_travel.crud import *
 from web_travel.city.views import blueprint as city_blueprint
 from web_travel.db import db
 from web_travel.main.views import blueprint as main_blueprint
-from web_travel.place.views import blueprint as place_blueprint
 from web_travel.user.models import User
 from web_travel.user.views import blueprint as user_blueprint
 
@@ -28,7 +27,6 @@ def create_app():
     app.register_blueprint(country_blueprint)
     app.register_blueprint(city_blueprint)
     app.register_blueprint(main_blueprint)
-    app.register_blueprint(place_blueprint)
     app.register_blueprint(user_blueprint)
 
     @login_manager.user_loader
