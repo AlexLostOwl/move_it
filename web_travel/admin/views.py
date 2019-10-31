@@ -17,9 +17,9 @@ def index():
 @blueprint.route('/add_place')
 @admin_required
 def add_place():
-    title = 'Add new place'
+    title = 'Добавить новое место'
     place_form = PlaceAddForm()
-    return render_template('place/add_place.html',
+    return render_template('admin/add_place.html',
                            page_title=title,
                            form=place_form)
 
@@ -36,7 +36,7 @@ def adding_place():
                 form.country.data.country_name, form.city.data
                 )
             flash(f'Место {form.place.data} успешно добавлено')
-            return redirect(url_for('place.add_place'))
+            return redirect(url_for('admin.add_place'))
         if form.country_input_method.data == 'create':
             save_country(form.new_country.data)
             if form.new_city.data != '':
@@ -50,7 +50,7 @@ def adding_place():
                     form.place.data, form.description.data,
                     form.new_country.data
                     )
-        return redirect(url_for('place.add_place'))
+        return redirect(url_for('admin.add_place'))
     else:
         for field, errors in form.errors.items():
             for error in errors:
@@ -58,4 +58,4 @@ def adding_place():
                     getattr(form, field).label.text,
                     error
                 ))
-        return redirect(url_for('place.add_place'))
+        return redirect(url_for('admin.add_place'))
