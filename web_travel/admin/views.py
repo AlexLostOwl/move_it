@@ -59,3 +59,9 @@ def adding_place():
                     error
                 ))
         return redirect(url_for('admin.add_place'))
+
+
+@blueprint.route('/places_list')
+@admin_required
+def places_list():
+    return render_template('admin/places_list.html')
