@@ -5,6 +5,19 @@ $(document).ready(function() {
             { "data": "name" },
             { "data": "city" },
             { "data": "country" }
+        ],
+        "deferRender": true,
+        "columnDefs": [
+            {
+                // The `data` parameter refers to the data for the cell (defined by the
+                // `data` option, which defaults to the column being worked with, in
+                // this case `data: 0`.
+                "render": function ( data, type, row ) {
+                    return "<a href='../places/edit_place/" + row.id + "'> Редактировать </a>";
+                },
+                "targets": 3
+            }
         ]
     } );
 } );
+
