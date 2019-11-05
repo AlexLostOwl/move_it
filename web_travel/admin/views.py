@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 
-from web_travel.admin.forms import PlaceAddForm
+from web_travel.admin.forms import PlaceAddForm, PlaceEditForm
 from web_travel.crud import save_place, save_country, save_city
 from web_travel.user.decorators import admin_required
+from web_travel.place.models import Place
 
 blueprint = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -65,3 +66,12 @@ def adding_place():
 @admin_required
 def places_list():
     return render_template('admin/places_list.html')
+
+
+@blueprint.route('/edit_place/<int:place_id>')
+@admin_required
+def edit_place(place_id):
+    place = Place.query.filter(Place.id == place_id).first_or_404()
+    title = 'Изменение данных о месте'
+    form = PlaceEditForm()
+    return render_template('admin/edit_place.html', page_title=title, form=form)
