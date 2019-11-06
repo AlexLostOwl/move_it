@@ -4,6 +4,7 @@ from web_travel.admin.forms import PlaceAddForm, PlaceEditForm
 from web_travel.crud import save_place, save_country, save_city
 from web_travel.user.decorators import admin_required
 from web_travel.place.models import Place
+from web_travel.db import db
 
 blueprint = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -28,7 +29,6 @@ def add_place():
 @blueprint.route('/adding_place', methods=['POST'])
 @admin_required
 def adding_place():
-    # TODO city заполняется при загрузке страницы
     form = PlaceAddForm()
     if form.validate_on_submit():
         if form.country_input_method.data == 'choose':
@@ -72,6 +72,19 @@ def places_list():
 @admin_required
 def edit_place(place_id):
     place = Place.query.filter(Place.id == place_id).first_or_404()
+    form = PlaceEditForm(obj=place)
     title = 'Изменение данных о месте'
+    return render_template('admin/edit_place.html', page_title=title, form=form, current_place_id=place_id)
+
+@blueprint.route('/editing_place/<int:place_id>', methods=['POST'])
+@admin_required
+def editing_place(place_id):
+    place = Place.query.filter(Place.id == place_id).first_or_404()
     form = PlaceEditForm()
-    return render_template('admin/edit_place.html', page_title=title, form=form)
+    if form.validate_on_submit():
+        form.populate_obj(place)
+        print(place.country_id)
+        db.session.commit()
+        flash('Данные изменены успешно')
+        return redirect(url_for('admin.edit_place', place_id=place_id))
+    return redirect(url_for('admin.edit_place', place_id=place_id))

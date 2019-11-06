@@ -12,11 +12,11 @@
     {% endwith %}
     <div class="row">
         <div class="col-8">
-            <form action="{{ url_for('admin.adding_place') }}" method='POST'>
+            <form action="{{ url_for('admin.editing_place', place_id=current_place_id) }}" method='POST'>
                 {{ form.hidden_tag() }}
                 <div class="form-group">
-                    {{ form.place.label }}
-                    {{ form.place() }}
+                    {{ form.place_name.label }}
+                    {{ form.place_name() }}
                 </div>
                 <div class="form-group">
                     {{ form.description.label }}

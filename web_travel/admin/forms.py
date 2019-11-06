@@ -18,20 +18,6 @@ class NonValidatingSelectMultipleField(SelectField):
 
 
 class PlaceAddForm(FlaskForm):
-    country = QuerySelectField(
-        'Выберите страну',
-        query_factory=lambda: Country.query.order_by(Country.country_name),
-        validators=[Optional()],
-        id='countriesSelect',
-        render_kw={'class': 'form-control'}
-        )
-    city = NonValidatingSelectMultipleField(
-        'Выберите город',
-        validators=[Optional()],
-        choices=[],
-        id='citiesSelect',
-        render_kw={'class': 'form-control'}
-    )
     place = StringField(
         'Введите название места',
         validators=[DataRequired()],
@@ -48,6 +34,20 @@ class PlaceAddForm(FlaskForm):
         default='choose',
         render_kw={'onclick': 'javascript:createOrChoose();', 'class': 'nobull'}
         )
+    country = QuerySelectField(
+        'Выберите страну',
+        query_factory=lambda: Country.query.order_by(Country.country_name),
+        validators=[Optional()],
+        id='countriesSelect',
+        render_kw={'class': 'form-control'}
+        )
+    city = NonValidatingSelectMultipleField(
+        'Выберите город',
+        validators=[Optional()],
+        choices=[],
+        id='citiesSelect',
+        render_kw={'class': 'form-control'}
+    )
     new_country = StringField(
         'Введите название страны',
         render_kw={'class': 'form-control'}
@@ -76,21 +76,7 @@ class PlaceAddForm(FlaskForm):
 
 
 class PlaceEditForm(FlaskForm):
-    country = QuerySelectField(
-        'Выберите страну',
-        query_factory=lambda: Country.query.order_by(Country.country_name),
-        validators=[Optional()],
-        id='countriesSelect',
-        render_kw={'class': 'form-control'}
-        )
-    city = NonValidatingSelectMultipleField(
-        'Выберите город',
-        validators=[Optional()],
-        choices=[],
-        id='citiesSelect',
-        render_kw={'class': 'form-control'}
-    )
-    place = StringField(
+    place_name = StringField(
         'Введите название места',
         validators=[DataRequired()],
         render_kw={'class': 'form-control'}
@@ -106,6 +92,20 @@ class PlaceEditForm(FlaskForm):
         default='choose',
         render_kw={'onclick': 'javascript:createOrChoose();', 'class': 'nobull'}
         )
+    country = QuerySelectField(
+        'Выберите страну',
+        query_factory=lambda: Country.query.order_by(Country.country_name),
+        validators=[Optional()],
+        id='countriesSelect',
+        render_kw={'class': 'form-control'}
+        )
+    city = NonValidatingSelectMultipleField(
+        'Выберите город',
+        validators=[Optional()],
+        choices=[],
+        id='citiesSelect',
+        render_kw={'class': 'form-control'}
+    )
     new_country = StringField(
         'Введите название страны',
         render_kw={'class': 'form-control'}
@@ -123,8 +123,8 @@ class PlaceEditForm(FlaskForm):
         if not FlaskForm.validate(self):
             return False
         if self.country_input_method.data == 'choose':
-            if place_exists(self.place.data, self.country.data.country_name):
-                flash(f'Место {self.place.data} в {self.country.data.country_name} уже существует')
+            if place_exists(self.place_name.data, self.country.data.country_name):
+                flash(f'Место {self.place_name.data} в {self.country.data.country_name} уже существует')
                 return False
         if self.country_input_method.data == 'create':
             if country_exists(self.new_country.data):
