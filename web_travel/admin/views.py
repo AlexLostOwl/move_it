@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import abort, Blueprint, render_template, redirect, url_for, flash
 
 from web_travel.admin.forms import PlaceAddForm, PlaceEditForm
 from web_travel.crud import save_place, save_country, save_city
 from web_travel.user.decorators import admin_required
 from web_travel.place.models import Place
+from web_travel.country.models import Country
+from web_travel.city.models import City
 from web_travel.db import db
 
 blueprint = Blueprint('admin', __name__, url_prefix='/admin')
@@ -76,15 +78,22 @@ def edit_place(place_id):
     title = 'Изменение данных о месте'
     return render_template('admin/edit_place.html', page_title=title, form=form, current_place_id=place_id)
 
+
 @blueprint.route('/editing_place/<int:place_id>', methods=['POST'])
 @admin_required
 def editing_place(place_id):
     place = Place.query.filter(Place.id == place_id).first_or_404()
     form = PlaceEditForm()
     if form.validate_on_submit():
+        if form.country_input_method.data == 'choose':
+            print(form.country.data.id)
+            country = Country.query.filter_by(id=form.country.data.id).first()
+            print(country)
+            if not country:
+                abort(500)
+            place.country_id = country.id
         form.populate_obj(place)
-        print(place.country_id)
         db.session.commit()
         flash('Данные изменены успешно')
-        return redirect(url_for('admin.edit_place', place_id=place_id))
+        return redirect(url_for('admin.places_list', place_id=place_id))
     return redirect(url_for('admin.edit_place', place_id=place_id))

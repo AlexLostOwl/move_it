@@ -1,6 +1,7 @@
 $(document).ready(function(){
-
+    console.log(2)
     const getAjax = (country) => {
+        console.log(4)
         $.ajax({
             type: 'GET',
             url: "../country/getCities",
@@ -33,6 +34,7 @@ $(document).ready(function(){
 
     if ($(this).val() != 'default') {
         var country = $(this).find('option:selected').text();
+        console.log(3)
 
         getAjax(country)
     }
@@ -42,10 +44,10 @@ $(document).ready(function(){
         if ($(this).val() != 'default') {
 
             var country = $(this).find('option:selected').text();
-
+            console.log(1)
             getAjax(country);
         }
-        else { 
+        else {
             const first_option = '<option value="" disabled selected>Выберите из списка</option>'
             $('select#citiesSelect').html(first_option);
             $('#groupCityInput').hide();
