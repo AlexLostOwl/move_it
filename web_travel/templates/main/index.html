@@ -1,9 +1,80 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-8">
-            <h1>{{ text }}</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-warning" role="alert">
+                {% for message in messages %}
+                    {{ message }}<br>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="jumbotron">
+        <h1 class="display-4">{{ jumbo_head }}</h1>
+        <p class="lead">Hi there, this is a travel project. As expected int future you all will use this website to plan
+        your vacation and trips. So give us time and let's see what's happen</p>
+        <hr class="my-4">
+        <!--Carousel Wrapper-->
+        <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel">
+          <!--Indicators-->
+          <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+          </ol>
+          <!--/.Indicators-->
+          <!--Slides-->
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+              <div class="view">
+                <img class="d-block w-100" src="{{ carousel_items[0]['photo_link'] }}"
+                  alt="First slide">
+                <div class="mask rgba-black-light"></div>
+              </div>
+              <div class="carousel-caption">
+                <h3 class="h3-responsive">{{ carousel_items[0]['place'] }}</h3>
+                <p>{{ carousel_items[0]['description'] }}</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <!--Mask color-->
+              <div class="view">
+                <img class="d-block w-100" src="{{ carousel_items[1]['photo_link'] }}"
+                  alt="Second slide">
+                <div class="mask rgba-black-strong"></div>
+              </div>
+              <div class="carousel-caption">
+                <h3 class="h3-responsive">{{ carousel_items[1]['place'] }}</h3>
+                <p>{{ carousel_items[1]['description'] }}</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <!--Mask color-->
+              <div class="view">
+                <img class="d-block w-100" src="{{ carousel_items[2]['photo_link'] }}"
+                  alt="Third slide">
+                <div class="mask rgba-black-slight"></div>
+              </div>
+              <div class="carousel-caption">
+                <h3 class="h3-responsive">{{ carousel_items[2]['place'] }}</h3>
+                <p>{{ carousel_items[2]['description'] }}</p>
+              </div>
+            </div>
+          </div>
+          <!--/.Slides-->
+          <!--Controls-->
+          <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+          <!--/.Controls-->
         </div>
+        <!--/.Carousel Wrapper-->
     </div>
+
 {% endblock %}

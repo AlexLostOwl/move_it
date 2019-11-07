@@ -16,7 +16,6 @@ from web_travel.user.views import blueprint as user_blueprint
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
-    # app.app_context().push()
     db.init_app(app)
     migrate = Migrate(app, db)
 

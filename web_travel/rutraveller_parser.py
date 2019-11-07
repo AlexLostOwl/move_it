@@ -1,15 +1,16 @@
 import logging
-
 import requests
 from bs4 import BeautifulSoup
 
-from web_travel import (save_place, save_country, save_city,
-                        place_exists, country_exists, city_exists)
+from web_travel import (save_place, save_country, save_city, save_photo,
+                        place_exists, city_exists)
+
+URL = 'https://rutraveller.ru/place'
 
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
-                    filename='rutravveler_parse.log')
+                    filename='rutraveler_parse.log')
 
 
 def get_html(url, page_num):
@@ -24,7 +25,6 @@ def get_html(url, page_num):
 
 def get_places(page_num=1):
     logging.info('Parsing started')
-    URL = 'https://rutraveller.ru/place'
     errors_count = 0
     while True:
         page_html = get_html(URL, page_num)
@@ -44,6 +44,9 @@ def get_places(page_num=1):
         description = soup.find('div', class_='place-description').find('div', class_='text').text
         location = soup.find('span', class_='info-line__text_gray').text.split(', ')
         country = location[-1]
+        photos = []
+        for img in soup.find_all('div', class_='photo-tile__cover'):
+            photos.append(img.find('img').get('src'))
         if place_exists(name, country):
             continue
         else:
@@ -55,6 +58,8 @@ def get_places(page_num=1):
             else:
                 city = None
             save_place(name, description, country, city)
+            for img in photos:
+                save_photo(img, name)
 
 
 if __name__ == "__main__":

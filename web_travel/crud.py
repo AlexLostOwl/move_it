@@ -1,8 +1,25 @@
+import random
+
 from web_travel.db import db
 from web_travel.country.models import Country
 from web_travel.city.models import City
-from web_travel.place.models import Place
-from web_travel.user.models import User
+from web_travel.place.models import Place, Photo
+
+
+def get_random_place():
+    places = Place.query.order_by(Place.place_name).limit(1000).all()
+    return random.choice(places).place_name
+
+
+def get_description_by_place(place_name):
+    place = Place.query.filter_by(place_name=place_name).first()
+    return place.description
+
+
+def get_photo_by_place(place_name):
+    place = Place.query.filter_by(place_name=place_name).first()
+    photo = Photo.query.filter_by(place_id=place.id).first()
+    return photo.photo_link
 
 
 def save_country(country_name):
@@ -47,6 +64,13 @@ def save_place(place_name, description, related_country, related_city=None):
             new_place = Place(place_name=place_name, description=description, country_id=country.id)
         db.session.add(new_place)
         db.session.commit()
+
+
+def save_photo(photo_link, related_place):
+    place = Place.query.filter(Place.place_name == related_place).first()
+    new_photo = Photo(photo_link=photo_link, place_id=place.id)
+    db.session.add(new_photo)
+    db.session.commit()
 
 
 def place_exists(place_name, related_country):
