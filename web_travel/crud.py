@@ -42,7 +42,8 @@ def save_place(place_name, description, related_country, related_city=None):
         country = Country.query.filter(Country.country_name == related_country).first()
         if related_city:
             city = City.query.filter(City.city_name == related_city).first()
-            new_place = Place(place_name=place_name, description=description, country_id=country.id, city_id=city.id)
+            new_place = Place(place_name=place_name, description=description,
+                              country_id=country.id, city_id=city.id)
         else:
             new_place = Place(place_name=place_name, description=description, country_id=country.id)
         db.session.add(new_place)
@@ -58,4 +59,3 @@ def place_exists(place_name, related_country):
         if country_object.count() and country_object.first().country_name == related_country:
             return True
     return False
-

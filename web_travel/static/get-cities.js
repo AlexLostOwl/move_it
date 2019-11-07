@@ -4,7 +4,7 @@ $(document).ready(function(){
         console.log(4)
         $.ajax({
             type: 'GET',
-            url: "../country/getCities",
+            url: "/country/getCities",
             data: { country: country},
             contentType: 'application/json',
             dataType: 'json',
@@ -30,6 +30,7 @@ $(document).ready(function(){
 
             }
         });
+        console.log(5)
     }
 
     if ($(this).val() != 'default') {

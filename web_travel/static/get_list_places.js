@@ -3,8 +3,8 @@ $(document).ready(function() {
         "ajax": "../places/getPlaces",
         "columns": [
             { "data": "name" },
-            { "data": "city" },
-            { "data": "country" }
+            { "data": "country" },
+            { "data": "city" }
         ],
         "deferRender": true,
         "columnDefs": [

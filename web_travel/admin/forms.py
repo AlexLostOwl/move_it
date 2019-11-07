@@ -5,6 +5,7 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Optional
 
 from web_travel.country.models import Country
+from web_travel.place.models import Place
 from web_travel.crud import place_exists, country_exists
 
 
@@ -122,10 +123,6 @@ class PlaceEditForm(FlaskForm):
     def validate(self):
         if not FlaskForm.validate(self):
             return False
-        if self.country_input_method.data == 'choose':
-            if place_exists(self.place_name.data, self.country.data.country_name):
-                flash(f'Место {self.place_name.data} в {self.country.data.country_name} уже существует')
-                return False
         if self.country_input_method.data == 'create':
             if country_exists(self.new_country.data):
                 flash(f'Страна {self.new_country.data} уже существует')

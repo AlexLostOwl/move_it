@@ -8,7 +8,7 @@ from web_travel.crud import country_exists
 from web_travel import db
 
 
-blueprint = Blueprint('places', __name__, url_prefix='/places')
+blueprint = Blueprint('place', __name__, url_prefix='/places')
 
 
 @blueprint.route('/getPlaces')
@@ -23,7 +23,7 @@ def get_places():
         data['data'].append({
             'id': place.id,
             'name': place.place_name,
+            'country': country,
             'city': city_name,
-            'country': country
         })
     return jsonify(data)

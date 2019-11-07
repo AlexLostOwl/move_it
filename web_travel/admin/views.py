@@ -76,22 +76,29 @@ def edit_place(place_id):
     place = Place.query.filter(Place.id == place_id).first_or_404()
     form = PlaceEditForm(obj=place)
     title = 'Изменение данных о месте'
-    return render_template('admin/edit_place.html', page_title=title, form=form, current_place_id=place_id)
+    return render_template('admin/edit_place.html', page_title=title,
+                           form=form, current_place_id=place_id)
 
 
 @blueprint.route('/editing_place/<int:place_id>', methods=['POST'])
 @admin_required
 def editing_place(place_id):
+    # TODO проверка страны на наличие такого же места
+    # TODO форма страна и город заполняются старыми данными
     place = Place.query.filter(Place.id == place_id).first_or_404()
     form = PlaceEditForm()
     if form.validate_on_submit():
         if form.country_input_method.data == 'choose':
-            print(form.country.data.id)
             country = Country.query.filter_by(id=form.country.data.id).first()
-            print(country)
             if not country:
                 abort(500)
             place.country_id = country.id
+            if form.city.data == '':
+                place.city_id = None
+            else:
+                city_object = City.query.filter(City.city_name == form.city.data,
+                                                City.country_id == country.id).first()
+                place.city_id = city_object.id
         form.populate_obj(place)
         db.session.commit()
         flash('Данные изменены успешно')
