@@ -12,23 +12,21 @@
     {% endwith %}
     <div class="row">
         <div class="col-12">
-            <a class="btn btn-primary" href="/admin/add_place" role="button">Добавить</a>
+            <a class="btn btn-primary" href="/admin/add_city" role="button">Добавить</a>
             <br>
             <br>
-            <table id="places" class="display" style="width:100%">
+            <table id="cities" class="display" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Country</th>
                         <th>City</th>
+                        <th>Country</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Name</th>
-                        <th>Country</th>
                         <th>City</th>
+                        <th>Country</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -40,5 +38,5 @@
 
 {% block scripts %}
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-    <script src={{ url_for('static', filename='get_list_places.js') }} ></script>
+    <script src={{ url_for('static', filename='get_list_cities.js') }} ></script>
 {% endblock %}

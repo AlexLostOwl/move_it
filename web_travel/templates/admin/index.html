@@ -12,8 +12,9 @@
             </div>
             {% endif %}
         {% endwith %}
-        <a href="{{ url_for('admin.add_place') }}"> Добавить новое место</a> <br>
         <a href="{{ url_for('admin.places_list') }}"> Редактировать места</a>
+        <br>
+        <a href="{{ url_for('admin.cities_list') }}"> Редактировать города</a>
         </div>
         <div class="col-4"></div>
     </div>

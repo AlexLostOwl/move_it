@@ -1,10 +1,9 @@
 $(document).ready(function() {
-    $('#places').DataTable( {
-        "ajax": "../places/getPlaces",
+    $('#cities').DataTable( {
+        "ajax": "../cities/getCities",
         "columns": [
-            { "data": "name" },
+            { "data": "city" },
             { "data": "country" },
-            { "data": "city" }
         ],
         "deferRender": true,
         "columnDefs": [
@@ -13,9 +12,9 @@ $(document).ready(function() {
                 // `data` option, which defaults to the column being worked with, in
                 // this case `data: 0`.
                 "render": function ( data, type, row ) {
-                    return "<a href='../admin/edit_place/" + row.id + "'> Редактировать </a>";
+                    return "<a href='../admin/edit_city/" + row.id + "'> Редактировать </a>";
                 },
-                "targets": 3
+                "targets": 2
             }
         ]
     } );
