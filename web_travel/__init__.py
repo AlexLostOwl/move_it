@@ -27,8 +27,8 @@ def create_app():
     app.register_blueprint(country_blueprint)
     app.register_blueprint(city_blueprint)
     app.register_blueprint(main_blueprint)
-    app.register_blueprint(place_blueprint)
     app.register_blueprint(user_blueprint)
+    app.register_blueprint(place_blueprint)
 
     @login_manager.user_loader
     def load_user(user_id):

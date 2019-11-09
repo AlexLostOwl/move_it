@@ -12,7 +12,7 @@
     {% endwith %}
     <div class="row">
         <div class="col-8">
-            <form action="{{ url_for('city.adding_city') }}" method='POST'>
+            <form action="{{ url_for('admin.adding_city') }}" method='POST'>
                 {{ form.hidden_tag() }}
                 <div class="form-group">
                     {{ form.country.label }}

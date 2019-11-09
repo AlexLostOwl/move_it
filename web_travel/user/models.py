@@ -20,3 +20,7 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'<User {self.username} id={self.id}>'
+
+    @property
+    def is_admin(self):
+        return self.role == 'admin'

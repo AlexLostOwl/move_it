@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger" role="alert">
+            {% for message in messages %}
+                {{ message }}<br>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-primary" href="/admin/add_city" role="button">Добавить</a>
+            <br>
+            <br>
+            <table id="cities" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script src={{ url_for('static', filename='get_list_cities.js') }} ></script>
+{% endblock %}
