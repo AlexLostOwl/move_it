@@ -1,11 +1,10 @@
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField, StringField, RadioField, SelectField
+from wtforms import SubmitField, TextAreaField, StringField, RadioField, SelectField, ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Optional
 
 from web_travel.country.models import Country
-from web_travel.place.models import Place
 from web_travel.city.models import City
 from web_travel.crud import place_exists, country_exists
 
@@ -158,3 +157,13 @@ class CityAddForm(FlaskForm):
                 flash(f'City {self.city.data} in {self.country.data} exists')
                 return False
         return True
+
+
+class CountryAddForm(FlaskForm):
+    country_name = StringField('Country name ', validators=[DataRequired()], render_kw={'class': 'form-control'})
+    submit = SubmitField('Add country', render_kw={'class': 'btn btn-primary'})
+
+    def validate_country_name(self, name):
+        country_count = Country.query.filter_by(country_name=name.data).count()
+        if country_count > 0:
+            raise ValidationError('Country exists')

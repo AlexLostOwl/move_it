@@ -4,7 +4,7 @@ $(document).ready(function(){
         console.log(4)
         $.ajax({
             type: 'GET',
-            url: "/country/getCities",
+            url: "/countries/getCities",
             data: { country: country},
             contentType: 'application/json',
             dataType: 'json',

@@ -1,6 +1,6 @@
 from flask import abort, Blueprint, render_template, redirect, url_for, flash
 
-from web_travel.admin.forms import PlaceAddForm, PlaceEditForm, CityAddForm
+from web_travel.admin.forms import PlaceAddForm, PlaceEditForm, CityAddForm, CountryAddForm
 from web_travel.crud import save_place, save_country, save_city
 from web_travel.user.decorators import admin_required
 from web_travel.place.models import Place
@@ -127,6 +127,19 @@ def create_city(city, new_country_id):
     return new_city.id
 
 
+@admin_required
+@blueprint.route('/delete_place/<int:place_id>')
+def delete_place(place_id):
+    place_for_delete = Place.query.filter_by(id=place_id)
+    if not place_for_delete:
+        abort(500)
+    place_for_delete.delete()
+    db.session.commit()
+    flash('Место успешно удалено')
+    return redirect(url_for("admin.places_list"))
+
+
+@admin_required
 @blueprint.route('/add_city')
 def add_city():
     title = 'Add new city'
@@ -136,6 +149,7 @@ def add_city():
                            form=city_form)
 
 
+@admin_required
 @blueprint.route('/adding_city', methods=['POST'])
 def adding_city():
     form = CityAddForm()
@@ -160,3 +174,40 @@ def adding_city():
 def cities_list():
     title = "Редактирование городов"
     return render_template('admin/cities_list.html', page_title=title)
+
+
+@admin_required
+@blueprint.route('/add_country')
+def add_country():
+    title = 'Add new country'
+    country_form = CountryAddForm()
+    return render_template('admin/add_country.html',
+                           page_title=title,
+                           form=country_form)
+
+
+@admin_required
+@blueprint.route('/adding_country', methods=['POST'])
+def adding_country():
+    form = CountryAddForm()
+    if form.validate_on_submit():
+        new_country = Country(country_name=form.country_name.data)
+        db.session.add(new_country)
+        db.session.commit()
+        flash('Country successful add')
+        return redirect(url_for('admin.countries_list'))
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash('Error in field "{}" - {}'.format(
+                    getattr(form, field).label.text,
+                    error
+                ))
+    return redirect(url_for('admin.add_country'))
+
+
+@blueprint.route('/countries_list')
+@admin_required
+def countries_list():
+    title = "Редактирование стран"
+    return render_template('admin/countries_list.html', page_title=title)
