@@ -3,7 +3,7 @@ from flask import abort, Blueprint, render_template, redirect, url_for, flash
 from web_travel.admin.forms import PlaceAddForm, PlaceEditForm, CityAddForm, CountryAddForm
 from web_travel.crud import save_place, save_country, save_city
 from web_travel.user.decorators import admin_required
-from web_travel.place.models import Place
+from web_travel.place.models import Place, Photo
 from web_travel.country.models import Country
 from web_travel.city.models import City
 from web_travel.db import db
@@ -130,6 +130,8 @@ def create_city(city, new_country_id):
 @admin_required
 @blueprint.route('/delete_place/<int:place_id>')
 def delete_place(place_id):
+    photos = Photo.query.filter(Photo.place_id == place_id)
+    photos.delete()
     place_for_delete = Place.query.filter_by(id=place_id)
     if not place_for_delete:
         abort(500)
